@@ -32,10 +32,6 @@ public partial class VideoGamesContext : DbContext
             entity.ToTable("users");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .IsRowVersion()
-                .IsConcurrencyToken()
-                .HasColumnName("created_at");
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .HasColumnName("password");
@@ -65,9 +61,11 @@ public partial class VideoGamesContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Owner).HasColumnName("owner");
+            entity.Property(e => e.Stock).HasColumnName("stock");
 
             entity.HasOne(d => d.OwnerNavigation).WithMany(p => p.Videogames)
                 .HasForeignKey(d => d.Owner)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_videogames_users");
         });
 
