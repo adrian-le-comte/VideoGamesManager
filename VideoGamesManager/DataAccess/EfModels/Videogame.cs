@@ -19,5 +19,7 @@ public partial class Videogame
 
     public int Stock { get; set; }
 
+    public int Price { get; set; }
+
     public virtual User OwnerNavigation { get; set; } = null!;
 }

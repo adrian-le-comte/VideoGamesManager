@@ -61,6 +61,7 @@ public partial class VideoGamesContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Owner).HasColumnName("owner");
+            entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Stock).HasColumnName("stock");
 
             entity.HasOne(d => d.OwnerNavigation).WithMany(p => p.Videogames)

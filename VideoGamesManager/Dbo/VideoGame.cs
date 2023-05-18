@@ -13,5 +13,7 @@
         public string Description { get; set; }
 
         public int Owner { get; set; }
+
+        public int Price { get; set; }
     }
 }
