@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VideoGamesManager.Controllers;
+using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.Dbo;
 
-[Authorize]
+[Authorize(Policy="NonAdminOnly")]
 public class StockController : Controller
 {
     // /Purchase/Buy

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VideoGamesManager.DataAccess.EfModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using VideoGamesManager.DataAccess.Interfaces;
+using VideoGamesManager.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +15,23 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy =>
         policy.RequireRole("ADMIN"));
+    options.AddPolicy("NonAdminOnly", policy =>
+    {
+        policy.RequireAssertion(context =>
+            !context.User.IsInRole("ADMIN"));
+    });
 });
-
-builder.Services.AddDbContext<VideoGamesContext>();
+builder.Services.AddEntityFrameworkSqlServer()
+                        .AddDbContext<VideoGamesManager.DataAccess.EfModels.VideoGamesContext>(options => options.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=VideoGames;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<VideoGamesContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddAutoMapper(typeof(VideoGamesManager.DataAccess.AutomapperProfiles));
+builder.Services.AddTransient<IVideoGamesRepository, VideoGamesRepository>();
+
+builder.Services.AddLogging();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

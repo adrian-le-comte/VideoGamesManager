@@ -6,8 +6,14 @@ namespace VideoGamesManager.DataAccess
 {
     public class VideoGamesRepository : Repository<DataAccess.EfModels.Videogame, Dbo.VideoGame>, Interfaces.IVideoGamesRepository
     {
-        public VideoGamesRepository(VideoGamesContext context, ILogger logger, IMapper mapper) : base(context, logger, mapper)
+        private readonly VideoGamesContext _context;
+        private readonly ILogger _logger;
+        private readonly IMapper _mapper;
+        public VideoGamesRepository(VideoGamesContext context, ILogger<VideoGamesRepository> logger, IMapper mapper) : base(context, logger, mapper)
         {
+            _context = context;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         public async void AddVideoGames(VideoGame videoGame, int amount)

@@ -1,6 +1,6 @@
 ﻿namespace VideoGamesManager.DataAccess.Interfaces
 {
-    public interface IVideoGamesRepository
+    public interface IVideoGamesRepository : IRepository<EfModels.Videogame, Dbo.VideoGame>
     {
         Dbo.VideoGame GetVideoGameById(int id);
         List<Dbo.VideoGame> GetAllVideoGames();

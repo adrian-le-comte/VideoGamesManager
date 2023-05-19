@@ -5,7 +5,7 @@ namespace VideoGamesManager.DataAccess
 {
     public class StudioRepository : Repository<DataAccess.EfModels.Studio, Dbo.Studio>, Interfaces.IStudioRepository
     {
-        public StudioRepository(EfModels.VideoGamesContext context, ILogger logger, IMapper mapper) : base(context, logger, mapper)
+        public StudioRepository(EfModels.VideoGamesContext context, ILogger<StudioRepository> logger, IMapper mapper) : base(context, logger, mapper)
         {
         }
 

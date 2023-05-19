@@ -6,7 +6,7 @@ namespace VideoGamesManager.DataAccess
 {
     public class CategoryRepository : Repository<DataAccess.EfModels.Category, Dbo.Category>, Interfaces.ICategoryRepository
     {
-        public CategoryRepository(EfModels.VideoGamesContext context, ILogger logger, IMapper mapper) : base(context, logger, mapper)
+        public CategoryRepository(EfModels.VideoGamesContext context, ILogger<CategoryRepository> logger, IMapper mapper) : base(context, logger, mapper)
         {
         }
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using VideoGamesManager.Models;
 using VideoGamesManager.DataAccess.EfModels;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VideoGamesManager.Controllers
 {
@@ -30,14 +31,6 @@ namespace VideoGamesManager.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var roleExists = await _roleManager.RoleExistsAsync("ADMIN");
-
-                if (!roleExists)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole<int>("ADMIN"));
-                }
-
-                await _userManager.AddToRoleAsync(user, "ADMIN");
                 if (returnUrl != null)
                 {
                     return RedirectToAction("Buy", "Purchase");
@@ -47,7 +40,6 @@ namespace VideoGamesManager.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }

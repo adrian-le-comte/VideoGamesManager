@@ -7,7 +7,7 @@ namespace VideoGamesManager.DataAccess
 {
     public class UsersRepository : Repository<DataAccess.EfModels.User, Dbo.User>, Interfaces.IUsersRepository
     {
-        public UsersRepository(EfModels.VideoGamesContext context, ILogger logger, IMapper mapper) : base(context, logger, mapper)
+        public UsersRepository(EfModels.VideoGamesContext context, ILogger<UsersRepository> logger, IMapper mapper) : base(context, logger, mapper)
         {
         }
 
