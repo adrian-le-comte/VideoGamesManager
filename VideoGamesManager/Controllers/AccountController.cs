@@ -10,11 +10,13 @@ namespace VideoGamesManager.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
+        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult Login()
         {
@@ -22,16 +24,28 @@ namespace VideoGamesManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(Dbo.User model)
+        public async Task<IActionResult> Login(Dbo.User model, string returnUrl = null)
         {
-            Console.WriteLine("USERNAME: " + model.Username);
-            var user = await _userManager.FindByEmailAsync(model.Username);
-            Console.WriteLine("USER IS :" + user);
+            var user = await _userManager.FindByNameAsync(model.Username);
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                Console.WriteLine("Success");
-                return RedirectToAction("Index", "Home"); // Redirect to the appropriate dashboard page
+                var roleExists = await _roleManager.RoleExistsAsync("ADMIN");
+
+                if (!roleExists)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<int>("ADMIN"));
+                }
+
+                await _userManager.AddToRoleAsync(user, "ADMIN");
+                if (returnUrl != null)
+                {
+                    return RedirectToAction("Buy", "Purchase");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");

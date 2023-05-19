@@ -6,7 +6,7 @@
 @model VideoGamesManager.Dbo.User
 <h2>Login</h2>
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+@using (Html.BeginForm("Login", "Account", new { returnUrl = Context.Request.Query["ReturnUrl"] }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
