@@ -4,7 +4,7 @@ namespace VideoGamesManager.Controllers
 {
     public class DestockController : Controller
     {
-        public IActionResult Sold()
+        public IActionResult GenerateBill()
         {
             return View();
         }
