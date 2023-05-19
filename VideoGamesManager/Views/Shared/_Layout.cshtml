@@ -31,10 +31,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Buy">Buy</a>
                         </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CategoryAdd">AddCategory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Destock" asp-action="Sold">Sold</a>
+                        </li>
                         @if (User.IsInRole("Admin"))
                         {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="List">Sellers</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="SellerAdd">Sellers</a>
                         </li>
                         }
                         <li class="nav-item">

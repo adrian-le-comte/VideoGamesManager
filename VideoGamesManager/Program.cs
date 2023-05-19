@@ -45,6 +45,20 @@ app.MapControllerRoute(
     pattern: "Purchase/{action=Buy}/",
     defaults: new { controller = "Purchase" });
 
+app.MapControllerRoute(
+    name: "sold",
+    pattern: "Destock/{action=Sold}",
+    defaults: new { controller = "Destock" });
+
+app.MapControllerRoute(
+    name: "categoryadd",
+    pattern: "Category/{action=CategoryAdd}",
+    defaults: new { controller = "Category" });
+
+app.MapControllerRoute(
+    name: "selleradd",
+    pattern: "Sellers/{action=SellerAdd}",
+    defaults: new { controller = "Sellers" });
 
 app.MapControllerRoute(
     name: "login",

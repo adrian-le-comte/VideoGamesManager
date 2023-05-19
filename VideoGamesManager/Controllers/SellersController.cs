@@ -4,7 +4,7 @@ namespace VideoGamesManager.Controllers
 {
     public class SellersController : Controller
     {
-        public IActionResult Index()
+        public IActionResult SellerAdd()
         {
             return View();
         }
