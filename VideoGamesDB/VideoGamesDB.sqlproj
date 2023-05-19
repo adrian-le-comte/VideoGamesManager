@@ -62,5 +62,7 @@
   <ItemGroup>
     <Build Include="dbo\Tables\videogames.sql" />
     <Build Include="dbo\Tables\users.sql" />
+    <Build Include="dbo\Tables\studios.sql" />
+    <Build Include="dbo\Tables\categories.sql" />
   </ItemGroup>
 </Project>

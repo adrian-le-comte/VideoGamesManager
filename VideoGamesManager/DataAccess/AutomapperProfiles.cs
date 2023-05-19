@@ -11,6 +11,12 @@ namespace VideoGamesManager.DataAccess
 
             CreateMap<Dbo.User, EfModels.User>();
             CreateMap<EfModels.User, Dbo.User>();
+
+            CreateMap<Dbo.Category, EfModels.Category>();
+            CreateMap<EfModels.Category, Dbo.Category>();
+
+            CreateMap<Dbo.Studio, EfModels.Studio>();
+            CreateMap<EfModels.Studio, Dbo.Studio>();
         }
     }
 }
