@@ -17,7 +17,7 @@ namespace VideoGamesManager.DataAccess
 
         public Category GetCategoryById(int id)
         {
-            return _mapper.Map<Category>(_context.Categories.FirstOrDefault(c => c.Id == id);
+            return _mapper.Map<Category>(_context.Categories.FirstOrDefault(c => c.Id == id));
         }
 
         public async void InsertCategory(Category category)
