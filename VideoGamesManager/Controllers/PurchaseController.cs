@@ -2,17 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using VideoGamesManager.Dbo;
 
-[Authorize(Policy = "AdminOnly")]
+[Authorize]
 public class PurchaseController : Controller
 {
-    // GET: /Purchase/Buy
+    // /Purchase/Buy
     public IActionResult Buy()
     {
-        // Implement the logic to retrieve the available video games from your stock
-        // You can pass the list of available video games to the view
+        // Implementer la logique ici
         var availableGames = GetAvailableGames();
 
-        // Return the view along with the available games
         return View(availableGames);
     }
 
@@ -20,22 +18,15 @@ public class PurchaseController : Controller
     [HttpPost]
     public IActionResult Confirm(string gameId)
     {
-        // Implement the logic to handle the purchase confirmation
-        // You can retrieve the selected game based on the gameId parameter
+        // Logique changer les stocks etc_
 
-        // Process the purchase, update the stock, etc.
-
-        // Return a view or redirect to a success page
         return View();
     }
 
-    // Helper method to retrieve the available video games
     private List<VideoGame> GetAvailableGames()
     {
-        // Implement the logic to fetch the available games from your stock
-        // This can be from a database, API, or any other data source
+        // Recuperer les jeux
 
-        // Return a list of Game objects representing the available games
         return new List<VideoGame>()
         {
             new VideoGame() { Name="Black Ops 3", Description="Superb game", CategoryId=1, Min_age=18, Stock=12, Price=50},

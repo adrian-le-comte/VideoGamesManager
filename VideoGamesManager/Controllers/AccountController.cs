@@ -2,36 +2,52 @@
 using Microsoft.AspNetCore.Identity;
 using VideoGamesManager.Models;
 using VideoGamesManager.DataAccess.EfModels;
+using System.Security.Cryptography;
 
 namespace VideoGamesManager.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult Login()
         {
             return View();
         }
-        
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
 
+        [HttpPost]
+        public async Task<IActionResult> Login(Dbo.User model, string returnUrl = null)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                Console.WriteLine("Success");
-                return RedirectToAction("Index", "Home"); // Redirect to the appropriate dashboard page
+                var roleExists = await _roleManager.RoleExistsAsync("ADMIN");
+
+                if (!roleExists)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<int>("ADMIN"));
+                }
+
+                await _userManager.AddToRoleAsync(user, "ADMIN");
+                if (returnUrl != null)
+                {
+                    return RedirectToAction("Buy", "Purchase");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
-            Console.WriteLine("Invalid");
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
