@@ -25,24 +25,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (!User.IsInRole("Admin"))
-                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Buy">Buy</a>
-                        </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CategoryAdd">AddCategory</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Stock" asp-action="Refill">Restockage</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Destock" asp-action="GenerateBill">Billing</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CategoryAdd">Ajout Categorie</a>
                         </li>
-                        @if (User.IsInRole("Admin"))
-                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="SellerAdd">Sellers</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Destock" asp-action="GenerateBill">Facture</a>
                         </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="SellerAdd">Gérer Vendeurs</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
