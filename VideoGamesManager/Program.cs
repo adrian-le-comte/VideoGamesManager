@@ -46,8 +46,8 @@ app.MapControllerRoute(
     defaults: new { controller = "Purchase" });
 
 app.MapControllerRoute(
-    name: "sold",
-    pattern: "Destock/{action=Sold}",
+    name: "generatebill",
+    pattern: "Destock/{action=GenerateBill}",
     defaults: new { controller = "Destock" });
 
 app.MapControllerRoute(
