@@ -21,14 +21,15 @@ builder.Services.AddAuthorization(options =>
             !context.User.IsInRole("ADMIN"));
     });
 });
-builder.Services.AddEntityFrameworkSqlServer()
-                        .AddDbContext<VideoGamesManager.DataAccess.EfModels.VideoGamesContext>(options => options.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=VideoGames;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True"));
-
+builder.Services.AddDbContext<VideoGamesContext>();
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<VideoGamesContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddAutoMapper(typeof(VideoGamesManager.DataAccess.AutomapperProfiles));
 builder.Services.AddTransient<IVideoGamesRepository, VideoGamesRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IStudioRepository, StudioRepository>();
+builder.Services.AddTransient<IUsersRepository, UsersRepository>();
 
 builder.Services.AddLogging();
 

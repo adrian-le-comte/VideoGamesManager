@@ -5,8 +5,12 @@ using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.Dbo;
 
 [Authorize(Policy="NonAdminOnly")]
-public class StockController : Controller
+public class StockController : BaseController
 {
+    public StockController(IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository) : base(videoGameRepository, categoryRepository, studioRepository)
+    {
+    }
+
     // /Purchase/Buy
     public IActionResult Refill()
     {
