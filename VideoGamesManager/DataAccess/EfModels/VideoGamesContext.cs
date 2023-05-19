@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace VideoGamesManager.DataAccess.EfModels;
 
-public partial class VideoGamesContext : DbContext
+public partial class VideoGamesContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public VideoGamesContext()
     {
@@ -19,7 +21,7 @@ public partial class VideoGamesContext : DbContext
 
     public virtual DbSet<Studio> Studios { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    // public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Videogame> Videogames { get; set; }
 
@@ -29,6 +31,7 @@ public partial class VideoGamesContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__categori__3213E83F0668B5DE");
@@ -49,9 +52,7 @@ public partial class VideoGamesContext : DbContext
 
             entity.ToTable("studios");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
@@ -63,18 +64,7 @@ public partial class VideoGamesContext : DbContext
 
             entity.ToTable("users");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.Password)
-                .HasMaxLength(255)
-                .HasColumnName("password");
-            entity.Property(e => e.Role)
-                .HasMaxLength(50)
-                .HasColumnName("role");
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .HasColumnName("username");
+            entity.Property(e => e.Id).HasColumnName("id");
         });
 
         modelBuilder.Entity<Videogame>(entity =>
@@ -100,11 +90,11 @@ public partial class VideoGamesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__videogame__categ__6A30C649");
 
-            entity.HasOne(d => d.Owner).WithMany(p => p.Videogames)
+            /*entity.HasOne(d => d.Owner).WithMany(p => p.Videogames)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__videogame__owner__6B24EA82");
-
+            */
             entity.HasOne(d => d.Studio).WithMany(p => p.Videogames)
                 .HasForeignKey(d => d.StudioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

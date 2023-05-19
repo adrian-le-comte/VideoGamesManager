@@ -16,7 +16,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddDbContext<VideoGamesContext>();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<VideoGamesContext>()
     .AddDefaultTokenProviders();
 var app = builder.Build();
