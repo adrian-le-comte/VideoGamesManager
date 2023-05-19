@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Identity.Client;
 using VideoGamesManager.DataAccess.EfModels;
 using VideoGamesManager.Dbo;
 
@@ -29,15 +27,20 @@ namespace VideoGamesManager.DataAccess
             
         }
 
+        public List<VideoGame> GetAllVideoGames()
+        {
+            return _mapper.Map<List<Dbo.VideoGame>>(_context.Videogames);
+        }
+
         public VideoGame GetVideoGameById(int id)
         {
             var result = _context.Videogames.Where(element => element.Id == id);
             return _mapper.Map<Dbo.VideoGame>(result);
         }
 
-        public List<VideoGame> GetVideoGamesByOwnerId(int owner)
+        public List<VideoGame> GetVideoGamesByOwnerId(int ownerId)
         {
-            var result = _context.Videogames.Where(element => element.Owner == owner);
+            var result = _context.Videogames.Where(element => element.OwnerId == ownerId);
             return _mapper.Map<List<Dbo.VideoGame>>(result);
         }
 

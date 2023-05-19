@@ -59,5 +59,10 @@ namespace VideoGamesManager.DataAccess
                 throw ex;
             }
         }
+
+        public List<User> GetAllUsers()
+        {
+            return _mapper.Map<List<Dbo.User>>(_context.Users);
+        }
     }
 }
