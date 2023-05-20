@@ -1,50 +1,86 @@
-﻿@model VideoGamesManager.Dbo.VideoGame
+﻿@using VideoGamesManager.Dbo
+@model VideoGamesManager.Models.DestockViewModel
 
 @{
     ViewData["Title"] = "Liste des jeux vidéo";
 }
 
-<h2>Liste des jeux vidéo</h2>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-<div class="box">
-    <h3>Catégorie : Video games</h3>
+    .box {
+        display: flex;
+        gap: 20px;
+    }
 
-    <form asp-controller="Jeux" asp-action="AjouterJeu" method="post">
-        <div class="form-group">
-            <label>Nom du jeu :</label>
-            <input type="text" class="form-control" asp-for="Name" />
-        </div>
-        <div class="form-group">
-            <label>Prix :</label>
-            <input type="text" class="form-control" asp-for="Price" />
-        </div>
-        <div class="form-group">
-            <label>Quantité demandée :</label>
-            <input type="text" class="form-control" asp-for="Stock" />
-        </div>
-        <div class="form-group">
-            <label>Date de vente :</label>
-            <input type="text" class="form-control"/>
-        </div>
+        .box .form-group {
+            flex: 1;
+        }
+</style>
 
-        <button type="submit" class="btn btn-primary">Ajouter</button>
-    </form>
+<div class="container">
+    <h2>Liste des jeux vidéo</h2>
+
+    <div class="box">
+        <h3>Jeu à ajouter :</h3>
+
+        <form asp-controller="Jeux" asp-action="AjouterJeu" method="post">
+            <div class="form-group">
+                <label>Nom du jeu :</label>
+                <input type="text" class="form-control" name="Name" />
+            </div>
+            <div class="form-group">
+                <label>Prix :</label>
+                <input type="text" class="form-control" name="Price" />
+            </div>
+            <div class="form-group">
+                <label>Quantité demandée :</label>
+                <input type="text" class="form-control" name="Stock" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+
+    <h3>Jeux sélectionnés :</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom du jeu</th>
+                <th>Prix</th>
+                <th>Quantité demandée</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var selectedGame in Model.SelectedGames)
+            {
+                <tr>
+                    <td>@selectedGame.Name</td>
+                    <td>@selectedGame.Price</td>
+                    <td>@selectedGame.Stock</td>
+                    <td></td>
+                    <td><button onclick="deleteGame('@selectedGame.Id')">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Liste des jeux vidéo</h2>
+
+    <table class="table">
+        @foreach (var game in Model.Games)
+        {
+            <tr>
+                <td>@game.Name</td>
+                <td>@game.Price</td>
+                <td>@game.Stock</td>
+                <td><button onclick="selectGame('@game.Id')">Select</button></td>
+            </tr>
+        }
+    </table>
 </div>
-
-<h3>Jeux sélectionnés :</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nom du jeu</th>
-            <th>Prix</th>
-            <th>Quantité demandée</th>
-            <th>Date de vente</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-
-<h3>Tous les jeux dans la base de données :</h3>
-<ul>
-</ul>
