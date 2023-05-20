@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.DataAccess;
 using Microsoft.AspNetCore.Hosting;
-
+using static System.Formats.Asn1.AsnWriter;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -22,6 +23,7 @@ builder.Services.AddAuthorization(options =>
             !context.User.IsInRole("ADMIN"));
     });
 });
+
 builder.Services.AddDbContext<VideoGamesContext>();
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<VideoGamesContext>()
@@ -82,5 +84,51 @@ app.MapControllerRoute(
     name: "login",
     pattern: "Account/{action=Login}/",
     defaults: new { controller = "Account" });
+
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
+
+    var adminRoleExists = await roleManager.RoleExistsAsync("ADMIN");
+
+    if (!adminRoleExists)
+    {
+        var adminRole = new IdentityRole<int>("ADMIN");
+        await roleManager.CreateAsync(adminRole);
+    }
+
+    var adminUser = await userManager.FindByNameAsync("Admin");
+
+    if (adminUser == null)
+    {
+        adminUser = new User
+        {
+            UserName = "Admin",
+            Email = "admin@example.com",
+            NormalizedUserName = "ADMIN",
+            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true,
+            TwoFactorEnabled = false,
+            LockoutEnabled = true,
+            AccessFailedCount = 0,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            LockoutEnd = new DateTimeOffset(2023, 5, 20, 0, 0, 0, TimeSpan.Zero),
+            PasswordHash = "helo",
+            PhoneNumber= "0606060606",
+            Role = "Admin",
+        };
+
+        var result = await userManager.CreateAsync(adminUser, "Test123__");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "ADMIN");
+            await dbContext.SaveChangesAsync();
+        }
+    }
+}
 
 app.Run();

@@ -6,5 +6,6 @@ namespace VideoGamesManager.DataAccess.EfModels;
 
 public partial class User : IdentityUser<int>
 {
+    public string Role { get; set; }
     public virtual ICollection<Videogame> Videogames { get; set; } = new List<Videogame>();
 }
