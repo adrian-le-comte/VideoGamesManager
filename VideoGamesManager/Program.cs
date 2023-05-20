@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.DataAccess;
+using Microsoft.AspNetCore.Hosting;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthorization(options =>
@@ -30,8 +31,12 @@ builder.Services.AddTransient<IVideoGamesRepository, VideoGamesRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IStudioRepository, StudioRepository>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
 
-builder.Services.AddLogging();
 
 var app = builder.Build();
 
