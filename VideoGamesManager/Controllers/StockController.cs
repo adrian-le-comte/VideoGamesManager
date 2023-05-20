@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VideoGamesManager.Controllers;
 using VideoGamesManager.DataAccess.Interfaces;
@@ -7,7 +8,7 @@ using VideoGamesManager.Dbo;
 [Authorize(Policy="NonAdminOnly")]
 public class StockController : BaseController
 {
-    public StockController(IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository) : base(videoGameRepository, categoryRepository, studioRepository)
+    public StockController(IMapper mapper, IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository, IUsersRepository usersRepository) : base(mapper, videoGameRepository, categoryRepository, studioRepository, usersRepository)
     {
     }
 

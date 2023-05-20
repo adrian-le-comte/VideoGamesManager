@@ -5,10 +5,35 @@
 <div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
-        <h1 class="display-4">Welcome @User.Identity.Name</h1>
+        <h1 class="display-4">Bienvenue @User.Identity.Name !</h1>
+        @if (User.IsInRole("ADMIN"))
+        {
+
+            <h2>
+                Vous êtes administrateur.<br/>
+            </h2>
+            <h3>
+                Vous pouvez gérer les catégories et studios de jeux-vidéos que peuvent
+                vendre vos vendeurs.<br>
+                Vous pouvez gérer vos vendeurs.
+            </h3>
+        }
+        else
+        {
+            <h2>
+                Vous êtes vendeur.<br/>
+            </h2>
+            <h3>
+                Vous pouvez faire une facture pour vos client en fonction de leur commande (Facture).<br/>
+                Vous pouvez restocker votre magasin en jeux-vidéos (Restockage).
+            </h3>
+        }
     }
     else
     {
-        <h1 class="display-4">You're not logged in</h1>
+        <h1>Connectez vous !</h1>
+        <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Se connecter</a>
+        <br />
+        <h5>La première connexion se fait avec le compte Admin pour créer des comptes vendeurs.</h5>
     }
 </div>

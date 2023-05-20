@@ -11,7 +11,7 @@ namespace VideoGamesManager.DataAccess
 
         public List<Studio> GetAllStdios()
         {
-            return _mapper.Map<List<Dbo.Studio>>(_context.Studios);
+            return _mapper.Map<List<Studio>>(_context.Studios);
         }
 
         public Studio GetStudioById(int id)

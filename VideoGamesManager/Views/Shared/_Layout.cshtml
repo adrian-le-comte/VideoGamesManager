@@ -36,14 +36,17 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CategoryAdd">Ajout Categorie</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="SellerAdd">Gérer Vendeurs</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Seller">Gérer Vendeurs</a>
                                 </li>
                             }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Se déсonnecter</a>
+                            </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Se Connecter</a>
                             </li>
                         }
                     </ul>

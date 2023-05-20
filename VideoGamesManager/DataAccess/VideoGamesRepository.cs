@@ -38,7 +38,7 @@ namespace VideoGamesManager.DataAccess
 
         public VideoGame GetVideoGameById(int id)
         {
-            var result = _context.Videogames.Where(element => element.Id == id);
+            var result = _context.Videogames.FirstOrDefault(element => element.Id == id);
             return _mapper.Map<Dbo.VideoGame>(result);
         }
 

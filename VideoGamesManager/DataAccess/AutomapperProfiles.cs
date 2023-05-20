@@ -17,6 +17,9 @@ namespace VideoGamesManager.DataAccess
 
             CreateMap<Dbo.Studio, EfModels.Studio>();
             CreateMap<EfModels.Studio, Dbo.Studio>();
+
+            CreateMap<Dbo.User, Models.SellerViewModel>();
+            CreateMap<Models.SellerViewModel, Dbo.User>();
         }
     }
 }
