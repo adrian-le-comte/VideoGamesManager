@@ -12,11 +12,13 @@ public partial class VideoGamesContext : IdentityDbContext<User, IdentityRole<in
     {
     }
 
-    public VideoGamesContext(DbContextOptions<VideoGamesContext> options)
+    public VideoGamesContext(DbContextOptions<VideoGamesContext> options, IConfiguration configuration)
         : base(options)
     {
+        Configuration = configuration;
     }
 
+    IConfiguration Configuration;
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Studio> Studios { get; set; }
@@ -27,7 +29,8 @@ public partial class VideoGamesContext : IdentityDbContext<User, IdentityRole<in
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=db;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True");
+
+        => optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
