@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.Models;
@@ -10,7 +11,7 @@ namespace VideoGamesManager.Controllers
     {
         private List<Dbo.VideoGame> allSelectedGames = new List<Dbo.VideoGame>();
 
-        public DestockController(IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository) : base(videoGameRepository, categoryRepository, studioRepository)
+        public DestockController(IMapper mapper, IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository, IUsersRepository usersRepository) : base(mapper, videoGameRepository, categoryRepository, studioRepository, usersRepository)
         {
         }
 
