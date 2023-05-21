@@ -8,7 +8,7 @@ using VideoGamesManager.Models;
 
 namespace VideoGamesManager.Controllers
 {
-    [Authorize(Policy ="NonAdminOnly")]
+    //[Authorize(Policy ="NonAdminOnly")]
     public class DestockController : BaseController
     {
 
@@ -30,6 +30,7 @@ namespace VideoGamesManager.Controllers
             {
                 selectedGames = new List<Dbo.VideoGame>();
             }
+            TempData["SelectedGames"] = selectedGamesJson;
             DestockViewModel viewModel = new DestockViewModel(allVideoGames, selectedGames);
             return View(viewModel);
         }
@@ -40,19 +41,73 @@ namespace VideoGamesManager.Controllers
             var id = int.Parse(gameId);
             var game = _videoGamesRepository.GetVideoGameById(id);
             game.Stock = int.Parse(Stock);
-            var selectedGames = new List<Dbo.VideoGame>();
-            var selectedGamesJson = TempData["SelectedGames"] as string;
-            if (!string.IsNullOrEmpty(selectedGamesJson))
+
+            if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
             {
-                selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesJson);
+                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                if (selectedGames != null)
+                {
+                    selectedGames.Add(game);
+                }
+                else
+                {
+                    selectedGames = new List<Dbo.VideoGame> { game };
+                }
+                selectedGamesJson = JsonConvert.SerializeObject(selectedGames);
+                TempData["SelectedGames"] = selectedGamesJson;
+            }
+            else
+            {
+                selectedGamesJson = JsonConvert.SerializeObject(new List<Dbo.VideoGame> { game });
+                TempData["SelectedGames"] = selectedGamesJson;
             }
 
-            selectedGames.Add(game);
-
-            selectedGamesJson = JsonConvert.SerializeObject(selectedGames);
-            TempData["SelectedGames"] = selectedGamesJson;
             return RedirectToAction("GenerateBill");
         }
 
+        public async Task<IActionResult> Print()
+        {
+            if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
+            {
+                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                if (selectedGames != null)
+                {
+                    foreach (var game in selectedGames)
+                    {
+                        var gameFromId = _videoGamesRepository.GetVideoGameById(game.Id);
+                        gameFromId.Stock -= game.Stock;
+
+                        await _videoGamesRepository.UpdateVideoGames(gameFromId);
+                    }
+                    selectedGames.Clear();
+                    TempData["SelectedGames"] =  JsonConvert.SerializeObject(selectedGames);
+                    return RedirectToAction("GenerateBill");
+                }
+            }
+
+            return RedirectToAction("GenerateBill");
+        }
+
+        public IActionResult DeleteGame(int gameid)
+        {
+            var game = _videoGamesRepository.GetVideoGameById(gameid);
+
+            if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
+            {
+                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                if (selectedGames != null)
+                {
+                    selectedGames.Remove(game);
+                }
+                selectedGamesJson = JsonConvert.SerializeObject(selectedGames);
+                TempData["SelectedGames"] = selectedGamesJson;
+            }
+            else
+            {
+                TempData["SelectedGames"] = selectedGamesJson;
+            }
+
+            return RedirectToAction("GenerateBill");
+        }
     }
 }

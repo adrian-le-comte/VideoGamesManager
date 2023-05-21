@@ -27,20 +27,36 @@
         document.getElementById("SelectedGameId").value = id;
         document.getElementById("Name").value = name;
         document.getElementById("Price").value = price;
-        alert("send");
     }
 
     function deleteGame(gameId) {
     }
+    function validateForm() {
+        var name = document.getElementById("Name").value;
+        var price = document.getElementById("Price").value;
+        var stock = document.getElementById("Stock").value;
+
+        if (name.trim() === "" || price.trim() === "" || stock.trim() === "") {
+            alert("Please fill in all the fields.");
+            return false;
+        }
+
+        return true;
+    }
+    function print() {
+        alert("print");
+    }
 </script>
 
 <div class="container">
+    <div class="row">
+        <div class="col-md-6">
     <h2>Liste des jeux vidéo</h2>
 
     <div class="box">
         <h3>Jeu à ajouter :</h3>
 
-        <form asp-controller="Destock" asp-action="AddGame" method="post">
+        <form asp-controller="Destock" asp-action="AddGame" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label>Nom du jeu :</label>
                 <input type="text" class="form-control" name="Name" id="Name" readonly/>
@@ -59,7 +75,8 @@
             <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
     </div>
-
+    </div>
+            <div class="col-md-6">
     <h3>Jeux sélectionnés :</h3>
     <table class="table">
         <thead>
@@ -77,13 +94,21 @@
                     <td>@selectedGame.Name</td>
                     <td>@selectedGame.Price</td>
                     <td>@selectedGame.Stock</td>
-                    <td></td>
-                    <td><button onclick="deleteGame('@selectedGame.Id')">Delete</button></td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Destock" asp-action="DeleteGame" asp-route-id="@selectedGame.Id">Supprimer</a>
+                        <input type="hidden" name="id" value="@selectedGame.Id" />
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <form asp-controller="Destock" asp-action="Print" method="post" onsubmit="print()">
+        <button type="submit">Impression</button>
+    </form>
 
+    
+        </div>
+    </div>
     <h2>Liste des jeux vidéo</h2>
 
     <table class="table">
