@@ -14,7 +14,7 @@ namespace VideoGamesManager.DataAccess
             _mapper = mapper;
         }
 
-        public async void AddVideoGames(VideoGame videoGame, int amount)
+        public async Task AddVideoGames(VideoGame videoGame, int amount)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace VideoGamesManager.DataAccess
             return _mapper.Map<List<Dbo.VideoGame>>(result);
         }
 
-        public async void RemoveVideoGamesById(int id, int amount)
+        public async Task RemoveVideoGamesById(int id, int amount)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace VideoGamesManager.DataAccess
             }
         }
 
-        public async void UpdateVideoGames(VideoGame videoGame)
+        public async Task UpdateVideoGames(VideoGame videoGame)
         {
             try
             {

@@ -5,7 +5,7 @@ using VideoGamesManager.Controllers;
 using VideoGamesManager.DataAccess.Interfaces;
 using VideoGamesManager.Dbo;
 
-[Authorize(Policy="NonAdminOnly")]
+//[Authorize(Policy="NonAdminOnly")]
 public class StockController : BaseController
 {
     public StockController(IMapper mapper, IVideoGamesRepository videoGameRepository, ICategoryRepository categoryRepository, IStudioRepository studioRepository, IUsersRepository usersRepository) : base(mapper, videoGameRepository, categoryRepository, studioRepository, usersRepository)
