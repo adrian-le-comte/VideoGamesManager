@@ -46,8 +46,6 @@ namespace VideoGamesManager.Controllers
             }
             newUser.Role = "Seller";
             var result = await _userManager.CreateAsync(_mapper.Map<DataAccess.EfModels.User>(newUser), newUser.Password);
-            // await _usersRepository.AddUser(newUser);
-            Console.WriteLine(result);
             return RedirectToAction("Seller");
         }
 

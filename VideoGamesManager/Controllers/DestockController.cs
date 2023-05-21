@@ -8,7 +8,7 @@ using VideoGamesManager.Models;
 
 namespace VideoGamesManager.Controllers
 {
-    //[Authorize(Policy ="NonAdminOnly")]
+    [Authorize(Policy ="NonAdminOnly")]
     public class DestockController : BaseController
     {
 
@@ -95,28 +95,6 @@ namespace VideoGamesManager.Controllers
                     TempData["SelectedGames"] = JsonConvert.SerializeObject(selectedGames);
                     return RedirectToAction("GenerateBill");
                 }
-            }
-
-            return RedirectToAction("GenerateBill");
-        }
-
-        public IActionResult DeleteGame(int gameid)
-        {
-            var game = _mapper.Map<VideoGamesViewModel>(_videoGamesRepository.GetVideoGameById(gameid));
-
-            if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
-            {
-                var selectedGames = JsonConvert.DeserializeObject<List<VideoGamesViewModel>>(selectedGamesString);
-                if (selectedGames != null)
-                {
-                    selectedGames.Remove(game);
-                }
-                selectedGamesJson = JsonConvert.SerializeObject(selectedGames);
-                TempData["SelectedGames"] = selectedGamesJson;
-            }
-            else
-            {
-                TempData["SelectedGames"] = selectedGamesJson;
             }
 
             return RedirectToAction("GenerateBill");

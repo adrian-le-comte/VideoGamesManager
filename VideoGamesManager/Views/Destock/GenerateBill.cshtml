@@ -46,6 +46,11 @@
     function print() {
         alert("print");
     }
+
+    function setName(name) {
+        document.getElementById("name").value = name;
+    }
+
 </script>
 
 <div class="container">
@@ -93,10 +98,6 @@
                     <td>@selectedGame.Name</td>
                     <td>@selectedGame.Price</td>
                     <td>@selectedGame.Stock</td>
-                    <td>
-                        <a class="btn btn-danger" asp-controller="Destock" asp-action="DeleteGame" asp-route-id="@selectedGame.Id">Supprimer</a>
-                        <input type="hidden" name="id" value="@selectedGame.Id" />
-                    </td>
                 </tr>
             }
         </tbody>
@@ -135,7 +136,7 @@
                 <td>@game.Min_age</td>
                 <td>@game.Description</td>
                 <td>
-                    <button onclick="selectGame('@game.Id', '@game.Name', '@game.Price')">Select</button>
+                    <button class="btn btn-primary" onclick="selectGame('@game.Id', '@game.Name', '@game.Price')">Select</button>
                 </td>
             </tr>
         }
