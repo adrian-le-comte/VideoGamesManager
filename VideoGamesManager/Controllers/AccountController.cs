@@ -27,8 +27,9 @@ namespace VideoGamesManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Dbo.User model, string returnUrl = null)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
+            var user = await _userManager.FindByNameAsync(model.UserName);
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, lockoutOnFailure: false);
+            Console.WriteLine("!111111111111111!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + result);
             if (result.Succeeded)
             {
                 if (returnUrl != null)

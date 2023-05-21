@@ -20,7 +20,7 @@ namespace VideoGamesManager.DataAccess
             return _mapper.Map<Category>(_context.Categories.FirstOrDefault(c => c.Id == id));
         }
 
-        public async void InsertCategory(Category category)
+        public async Task AddCategory(Category category)
         {
             try
             {
@@ -29,6 +29,19 @@ namespace VideoGamesManager.DataAccess
             catch (Exception ex)
             {
                 Console.Error.WriteLine("Unhandled exception in InsertStudio TODO");
+            }
+        }
+
+        public async Task DeleteCategory(int id)
+        {
+            try
+            {
+                await Delete(id);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Unhandled exception in DeleteCategory TODO");
+                throw ex;
             }
         }
     }

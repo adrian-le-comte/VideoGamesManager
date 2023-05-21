@@ -5,6 +5,8 @@
         Dbo.Category GetCategoryById(int id);
         List<Dbo.Category> GetAllCategories();
 
-        void InsertCategory(Dbo.Category category);
+        Task AddCategory(Dbo.Category category);
+        Task DeleteCategory(int id);
+
     }
 }

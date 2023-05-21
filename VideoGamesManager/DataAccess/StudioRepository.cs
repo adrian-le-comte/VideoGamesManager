@@ -9,7 +9,7 @@ namespace VideoGamesManager.DataAccess
         {
         }
 
-        public List<Studio> GetAllStdios()
+        public List<Studio> GetAllStudios()
         {
             return _mapper.Map<List<Studio>>(_context.Studios);
         }
@@ -20,7 +20,7 @@ namespace VideoGamesManager.DataAccess
             return _mapper.Map<Dbo.Studio>(result);
         }
 
-        public async void InsertStudio(Studio studio)
+        public async Task AddStudio(Studio studio)
         {
             try
             {
@@ -29,6 +29,18 @@ namespace VideoGamesManager.DataAccess
             catch (Exception ex)
             {
                 Console.Error.WriteLine("Unhandled exception in InsertStudio TODO");
+            }
+        }
+
+        public async Task DeleteStudio(int id)
+        {
+            try
+            {
+                await Delete(id);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Unhandled exception in DeleteStudio TODO");
             }
         }
     }

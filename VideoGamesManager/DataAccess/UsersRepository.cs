@@ -11,7 +11,7 @@ namespace VideoGamesManager.DataAccess
         {
         }
 
-        public User? GetById(int id)
+        public User? GetById(long id)
         {
             var result = _context.Users.FirstOrDefault(x => x.Id == id);
             if (result == null)
@@ -21,7 +21,7 @@ namespace VideoGamesManager.DataAccess
             return _mapper.Map<User>(result);
         }
 
-        public async void AddUser(User user)
+        public async Task AddUser(User user)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace VideoGamesManager.DataAccess
             }
         }
 
-        public async void UpdateUser(User user)
+        public async Task UpdateUser(User user)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace VideoGamesManager.DataAccess
             }
         }
 
-        public async void DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
             try
             {

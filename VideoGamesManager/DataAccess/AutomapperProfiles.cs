@@ -20,6 +20,12 @@ namespace VideoGamesManager.DataAccess
 
             CreateMap<Dbo.User, Models.SellerViewModel>();
             CreateMap<Models.SellerViewModel, Dbo.User>();
+
+            CreateMap<Dbo.Category, Models.CategoryViewModel>();
+            CreateMap<Models.CategoryViewModel, Dbo.Category>();
+
+            CreateMap<Dbo.Studio, Models.StudioViewModel>();
+            CreateMap<Models.StudioViewModel, Dbo.Studio>();
         }
     }
 }

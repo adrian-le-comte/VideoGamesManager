@@ -14,8 +14,11 @@
     [PhoneNumberConfirmed] BIT                NOT NULL,
     [SecurityStamp]        NVARCHAR (MAX)     NOT NULL,
     [TwoFactorEnabled]     BIT                NOT NULL,
+    [Role]                 NVARCHAR (MAX)     DEFAULT (N'') NOT NULL,
     CONSTRAINT [PK__users__3213E83F889E0DF5] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
 
 

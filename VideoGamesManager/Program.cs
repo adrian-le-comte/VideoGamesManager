@@ -28,6 +28,9 @@ builder.Services.AddDbContext<VideoGamesContext>();
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<VideoGamesContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddTransient<UserManager<User>>();
+
 builder.Services.AddAutoMapper(typeof(VideoGamesManager.DataAccess.AutomapperProfiles));
 builder.Services.AddTransient<IVideoGamesRepository, VideoGamesRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
@@ -77,7 +80,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "selleradd",
-    pattern: "Sellers/{action=SellerAdd}",
+    pattern: "Sellers/{action=Seller}",
     defaults: new { controller = "Sellers" });
 
 app.MapControllerRoute(
@@ -116,7 +119,7 @@ using (var scope = app.Services.CreateScope())
             AccessFailedCount = 0,
             SecurityStamp = Guid.NewGuid().ToString(),
             ConcurrencyStamp = Guid.NewGuid().ToString(),
-            LockoutEnd = new DateTimeOffset(2023, 5, 20, 0, 0, 0, TimeSpan.Zero),
+            LockoutEnd = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero),
             PasswordHash = "helo",
             PhoneNumber= "0606060606",
             Role = "Admin",

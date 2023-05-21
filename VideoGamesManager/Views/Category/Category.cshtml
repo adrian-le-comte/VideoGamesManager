@@ -1,0 +1,53 @@
+﻿@{
+}
+@model VideoGamesManager.Models.CategoriesViewModel
+
+@{
+    ViewData["Title"] = "Gestion des catégories de jeux";
+}
+
+<h2>Gestion des catégories de jeux</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <h3>Ajouter/Modifier une catégorie</h3>
+                <form asp-controller="Category"  method="post">
+                    <div class="form-group">
+                        <label>Nom de la catégorie :</label>
+                        <input type="text" class="form-control" asp-for="Category.Name" />
+                        @Html.ValidationMessageFor(model => model.Category.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <button type="submit" class="btn btn-primary" asp-controller="Category" asp-action="CategoryAdd">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Liste des catégories de jeux :</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom de la catégorie</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr>
+                            <td>@category.Name</td>
+                            <td>
+                                <a class="btn btn-danger" asp-controller="Category" asp-action="CategoryDelete" asp-route-id="@category.Id">Supprimer</a>
+                                <input type="hidden" name="id" value="@category.Id" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

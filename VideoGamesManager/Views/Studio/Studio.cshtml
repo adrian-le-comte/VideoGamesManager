@@ -1,0 +1,53 @@
+﻿@{
+}
+@model VideoGamesManager.Models.StudiosViewModel
+
+@{
+    ViewData["Title"] = "Gestion des studios d'édition de jeux-vidéos";
+}
+
+<h2>Gestion des catégories de jeux</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <h3>Ajouter|Supprimer un studio d'édition de jeux-vidéos</h3>
+                <form asp-controller="Studio" method="post">
+                    <div class="form-group">
+                        <label>Nom du studio :</label>
+                        <input type="text" class="form-control" asp-for="Studio.Name" />
+                        @Html.ValidationMessageFor(model => model.Studio.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <button type="submit" class="btn btn-primary" asp-controller="Studio" asp-action="StudioAdd">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Liste des studios :</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom des studios</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var studio in Model.Studios)
+                    {
+                        <tr>
+                            <td>@studio.Name</td>
+                            <td>
+                                <a class="btn btn-danger" asp-controller="Studio" asp-action="StudioDelete" asp-route-id="@studio.Id">Supprimer</a>
+                                <input type="hidden" name="id" value="@studio.Id" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

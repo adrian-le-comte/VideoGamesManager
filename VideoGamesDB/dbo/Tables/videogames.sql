@@ -20,3 +20,20 @@
 
 
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_videogames_studio_id]
+    ON [dbo].[videogames]([studio_id] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_videogames_owner_id]
+    ON [dbo].[videogames]([owner_id] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_videogames_category_id]
+    ON [dbo].[videogames]([category_id] ASC);
+

@@ -56,7 +56,7 @@ namespace VideoGamesManager.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.LogError("error on db", ex);
+                _logger.LogError("ERROR INSERTION:\n" + ex);
                 return null;
             }
 
@@ -90,7 +90,7 @@ namespace VideoGamesManager.DataAccess
 
         }
 
-        public virtual async Task<bool> Delete(long idEntity)
+        public virtual async Task<bool> Delete(int idEntity)
         {
             DBEntity dbEntity = _set.Find(idEntity);
 

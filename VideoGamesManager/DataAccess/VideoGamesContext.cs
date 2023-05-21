@@ -42,7 +42,7 @@ public partial class VideoGamesContext : IdentityDbContext<User, IdentityRole<in
             entity.ToTable("categories");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)

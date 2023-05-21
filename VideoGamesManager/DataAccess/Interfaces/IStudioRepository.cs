@@ -3,7 +3,8 @@
     public interface IStudioRepository : IRepository<EfModels.Studio, Dbo.Studio>
     {
         Dbo.Studio GetStudioById(int id);
-        List<Dbo.Studio> GetAllStdios();
-        void InsertStudio(Dbo.Studio studio);
+        List<Dbo.Studio> GetAllStudios();
+        Task AddStudio(Dbo.Studio studio);
+        Task DeleteStudio(int id);
     }
 }

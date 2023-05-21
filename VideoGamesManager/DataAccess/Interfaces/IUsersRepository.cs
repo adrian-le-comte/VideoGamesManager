@@ -2,11 +2,11 @@
 {
     public interface IUsersRepository : IRepository<EfModels.User, Dbo.User>
     {
-        Dbo.User GetById(int id);
+        Dbo.User GetById(long id);
         List<Dbo.User> GetAllUsers();
-        void AddUser(Dbo.User user);
-        void UpdateUser(Dbo.User user);
-        void DeleteUser(int id);
+        Task AddUser(Dbo.User user);
+        Task UpdateUser(Dbo.User user);
+        Task DeleteUser(int id);
 
     }
 }
