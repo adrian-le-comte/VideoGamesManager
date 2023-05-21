@@ -43,5 +43,10 @@ namespace VideoGamesManager.DataAccess
                 Console.Error.WriteLine("Unhandled exception in DeleteStudio TODO");
             }
         }
+
+        public Studio GetStudioByName(string name)
+        {
+            return _mapper.Map<Dbo.Studio>(_context.Studios.Where(x => x.Name == name).FirstOrDefault()); ;
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace VideoGamesManager.Controllers
         public async Task<IActionResult> VideoGameAdd(VideoGamesViewModel viewModel)
         {
             viewModel.Category = _categoryRepository.GetCategoryById(viewModel.CategoryId).Name;
-            viewModel.Studio = _studioRepository.GetStudioById(viewModel.CategoryId).Name;
+            viewModel.Studio = _studioRepository.GetStudioById(viewModel.StudioId).Name;
             Dbo.VideoGame game = _mapper.Map<Dbo.VideoGame>(viewModel);
             game.OwnerId = GetCurrentUserId(); // User Admin ID
             game.StudioId = viewModel.StudioId;

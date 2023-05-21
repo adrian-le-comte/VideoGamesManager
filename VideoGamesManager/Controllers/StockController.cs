@@ -23,7 +23,6 @@ public class StockController : BaseController
     [HttpPost]
     public async Task<IActionResult> Confirm(int[] quantities, int[] gameIds)
     {
-        Console.WriteLine("CONFIRM");
         for (int i = 0; i < quantities.Length; i++)
         {
             int quantity = quantities[i];
@@ -66,7 +65,7 @@ public class StockController : BaseController
             }
         }
 
-        return View();
+        return RedirectToAction("Refill");
     }
 
     private List<VideoGame> GetAvailableGames()
