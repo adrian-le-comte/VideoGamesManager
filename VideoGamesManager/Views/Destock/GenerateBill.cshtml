@@ -111,15 +111,35 @@
     </div>
     <h2>Liste des jeux vidéo</h2>
 
-    <table class="table">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom du jeu</th>
+            <th>Prix</th>
+            <th>Quantité en stock</th>
+            <th>Catégorie</th>
+            <th>Studio</th>
+            <th>Âge minimum</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var game in Model.Games)
         {
             <tr>
                 <td>@game.Name</td>
                 <td>@game.Price</td>
                 <td>@game.Stock</td>
-                <td><button onclick="selectGame('@game.Id', '@game.Name', '@game.Price')">Select</button></td>
+                <td>@game.Category</td>
+                <td>@game.Studio</td>
+                <td>@game.Min_age</td>
+                <td>@game.Description</td>
+                <td>
+                    <button onclick="selectGame('@game.Id', '@game.Name', '@game.Price')">Select</button>
+                </td>
             </tr>
         }
-    </table>
+    </tbody>
+</table>
 </div>

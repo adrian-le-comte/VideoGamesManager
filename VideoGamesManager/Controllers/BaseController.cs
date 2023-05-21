@@ -26,5 +26,10 @@ namespace VideoGamesManager.Controllers
         {
             return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
+
+        protected int GetAdminUserId()
+        {
+            return _usersRepository.GetAllUsers().Find(x => x.Role == "Admin").Id;
+        }
     }
 }

@@ -18,47 +18,58 @@ namespace VideoGamesManager.Controllers
 
         public IActionResult GenerateBill()
         {
-            var allVideoGames = _videoGamesRepository.GetAllVideoGames();
+            var allVideoGames = _mapper.Map<List<VideoGamesViewModel>>(_videoGamesRepository.GetAllVideoGames());
 
             var selectedGamesJson = TempData["SelectedGames"] as string;
-            var selectedGames = new List<Dbo.VideoGame>();
+            var selectedGames = new List<VideoGamesViewModel>();
             if (selectedGamesJson != null)
             {
-                selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesJson);
+                selectedGames = JsonConvert.DeserializeObject<List<VideoGamesViewModel>>(selectedGamesJson);
             }
             if (selectedGames == null)
             {
-                selectedGames = new List<Dbo.VideoGame>();
+                selectedGames = new List<VideoGamesViewModel>();
             }
             TempData["SelectedGames"] = selectedGamesJson;
+            for (int i = 0; i < allVideoGames.Count; i++)
+            {
+                allVideoGames[i].Category = _categoryRepository.GetCategoryById(allVideoGames[i].CategoryId).Name;
+                allVideoGames[i].Studio = _studioRepository.GetStudioById(allVideoGames[i].StudioId).Name;
+            }
+            for (int i = 0; i < selectedGames.Count; i++)
+            {
+                selectedGames[i].Category = _categoryRepository.GetCategoryById(selectedGames[i].CategoryId).Name;
+                selectedGames[i].Studio = _studioRepository.GetStudioById(selectedGames[i].StudioId).Name;
+            }
+            allVideoGames = allVideoGames.Where(x => x.OwnerId == GetCurrentUserId()).ToList();
             DestockViewModel viewModel = new DestockViewModel(allVideoGames, selectedGames);
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult AddGame(string Name, string Price, string Stock, string gameId)
+        public IActionResult AddGame(VideoGamesViewModel videoGamesViewModel)
         {
-            var id = int.Parse(gameId);
-            var game = _videoGamesRepository.GetVideoGameById(id);
-            game.Stock = int.Parse(Stock);
-
+            var game = _mapper.Map<VideoGamesViewModel>(_videoGamesRepository.GetVideoGameByName(videoGamesViewModel.Name));
+            game.Stock = videoGamesViewModel.Stock;
             if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
             {
-                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                var selectedGames = JsonConvert.DeserializeObject<List<VideoGamesViewModel>>(selectedGamesString);
                 if (selectedGames != null)
                 {
+                    game.Category = _categoryRepository.GetCategoryById(game.CategoryId).Name;
                     selectedGames.Add(game);
                 }
                 else
                 {
-                    selectedGames = new List<Dbo.VideoGame> { game };
+                    game.Category = _categoryRepository.GetCategoryById(game.CategoryId).Name;
+                    selectedGames = new List<VideoGamesViewModel> { game };
                 }
                 selectedGamesJson = JsonConvert.SerializeObject(selectedGames);
                 TempData["SelectedGames"] = selectedGamesJson;
             }
             else
             {
-                selectedGamesJson = JsonConvert.SerializeObject(new List<Dbo.VideoGame> { game });
+                selectedGamesJson = JsonConvert.SerializeObject(new List<VideoGamesViewModel> { game });
                 TempData["SelectedGames"] = selectedGamesJson;
             }
 
@@ -69,18 +80,19 @@ namespace VideoGamesManager.Controllers
         {
             if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
             {
-                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                var selectedGames = JsonConvert.DeserializeObject<List<VideoGamesViewModel>>(selectedGamesString);
                 if (selectedGames != null)
                 {
-                    foreach (var game in selectedGames)
+                    for (int i = 0; i < selectedGames.Count; i++)
                     {
-                        var gameFromId = _videoGamesRepository.GetVideoGameById(game.Id);
+                        VideoGamesViewModel? game = selectedGames[i];
+                        var gameFromId = _videoGamesRepository.GetVideoGameByNameAndOwner(game.Name, GetCurrentUserId());
                         gameFromId.Stock -= game.Stock;
-
                         await _videoGamesRepository.UpdateVideoGames(gameFromId);
+                        Console.WriteLine(gameFromId);
                     }
                     selectedGames.Clear();
-                    TempData["SelectedGames"] =  JsonConvert.SerializeObject(selectedGames);
+                    TempData["SelectedGames"] = JsonConvert.SerializeObject(selectedGames);
                     return RedirectToAction("GenerateBill");
                 }
             }
@@ -90,11 +102,11 @@ namespace VideoGamesManager.Controllers
 
         public IActionResult DeleteGame(int gameid)
         {
-            var game = _videoGamesRepository.GetVideoGameById(gameid);
+            var game = _mapper.Map<VideoGamesViewModel>(_videoGamesRepository.GetVideoGameById(gameid));
 
             if (TempData.TryGetValue("SelectedGames", out var selectedGamesJson) && selectedGamesJson is string selectedGamesString)
             {
-                var selectedGames = JsonConvert.DeserializeObject<List<Dbo.VideoGame>>(selectedGamesString);
+                var selectedGames = JsonConvert.DeserializeObject<List<VideoGamesViewModel>>(selectedGamesString);
                 if (selectedGames != null)
                 {
                     selectedGames.Remove(game);

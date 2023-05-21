@@ -77,7 +77,7 @@ public partial class VideoGamesContext : IdentityDbContext<User, IdentityRole<in
             entity.ToTable("videogames");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.Description).HasColumnName("description");

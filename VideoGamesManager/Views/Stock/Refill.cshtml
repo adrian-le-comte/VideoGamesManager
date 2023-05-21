@@ -1,5 +1,5 @@
 ﻿@using VideoGamesManager.Dbo
-@model List<VideoGame>
+@model List<VideoGamesManager.Models.VideoGamesViewModel>
 
 <h2>Select games to restock:</h2>
 
@@ -58,9 +58,8 @@
                     <td>@Model[i].Stock</td>
                     <td>@Model[i].Price</td>
                     <td>
-                        <button type="button" class="increment" data-game-id="@Model[i].Id">+</button>
-                        <input type="input" id="quantity-@Model[i].Id" name="quantity" value="0" />
-                        <input type="hidden" name="gameId" value="@Model[i].Id" />
+                        <input type="number" id="quantity-@Model[i].Id" name="quantities[@i]" value="0" />
+                        <input type="hidden" name="gameIds[@i]" value="@Model[i].Id" />
                     </td>
                 </tr>
             }

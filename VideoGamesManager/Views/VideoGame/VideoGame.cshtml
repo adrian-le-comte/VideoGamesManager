@@ -1,0 +1,99 @@
+﻿@model VideoGamesManager.Models.VideoGamesViewModel
+
+@{
+    ViewData["Title"] = "Game Information";
+}
+
+<h2>Game Information</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <h3>Add/Edit a Game</h3>
+                <form asp-controller="VideoGame" method="post">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" asp-for="Name" />
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Minimum Age:</label>
+                        <input type="number" class="form-control" asp-for="Min_age" />
+                        @Html.ValidationMessageFor(model => model.Min_age, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Quantity:</label>
+                        <input type="number" class="form-control" asp-for="Stock" />
+                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price:</label>
+                        <input type="number" class="form-control" asp-for="Price" />
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category:</label>
+                        <select class="form-control" asp-for="CategoryId" asp-items="@Model.CategoryOptions"></select>
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Studio:</label>
+                        <select class="form-control" asp-for="StudioId" asp-items="@Model.StudioOptions"></select>
+                        @Html.ValidationMessageFor(model => model.StudioId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <button type="submit" class="btn btn-primary" asp-controller="VideoGame" asp-action="VideoGameAdd">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Liste des vendeurs :</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom du jeu</th>
+                        <th>Prix</th>
+                        <th>Quantité en stock</th>
+                        <th>Catégorie</th>
+                        <th>Studio</th>
+                        <th>Âge minimum</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var game in Model.videoGameViewModels)
+                    {
+                        <tr>
+                            <td>@game.Name</td>
+                            <td>@game.Price</td>
+                            <td>@game.Stock</td>
+                            <td>@game.Category</td>
+                            <td>@game.Studio</td>
+                            <td>@game.Min_age</td>
+                            <td>@game.Description</td>
+                            <td>
+                                <a class="btn btn-danger" asp-controller="VideoGame" asp-action="VideoGameDelete" asp-route-id="@game.Id">Supprimer</a>
+                                <input type="hidden" name="id" value="@game.Id" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

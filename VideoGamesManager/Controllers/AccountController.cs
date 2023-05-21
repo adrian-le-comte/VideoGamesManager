@@ -29,7 +29,6 @@ namespace VideoGamesManager.Controllers
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, lockoutOnFailure: false);
-            Console.WriteLine("!111111111111111!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + result);
             if (result.Succeeded)
             {
                 if (returnUrl != null)

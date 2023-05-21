@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[videogames] (
-    [id]          INT            NOT NULL,
+    [id]          INT            NOT NULL IDENTITY,
     [name]        NVARCHAR (MAX) NOT NULL,
     [min_age]     INT            NOT NULL,
     [description] NVARCHAR (MAX) NOT NULL,

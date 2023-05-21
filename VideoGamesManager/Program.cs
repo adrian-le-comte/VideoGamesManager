@@ -74,6 +74,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Destock" });
 
 app.MapControllerRoute(
+    name: "videogameadd",
+    pattern: "VideoGame/{action=VideoGame}",
+    defaults: new { controller = "VideoGame" });
+
+app.MapControllerRoute(
     name: "categoryadd",
     pattern: "Category/{action=CategoryAdd}",
     defaults: new { controller = "Category" });

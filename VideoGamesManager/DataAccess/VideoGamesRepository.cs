@@ -14,14 +14,11 @@ namespace VideoGamesManager.DataAccess
             _mapper = mapper;
         }
 
-        public async Task AddVideoGames(VideoGame videoGame, int amount)
+        public async Task AddVideoGames(VideoGame videoGame)
         {
             try
             {
-                for (int i = 0; i < amount; i++)
-                {
-                    await Insert(videoGame);
-                }
+                await Insert(videoGame);
             }
             catch (Exception e)
             {
@@ -36,10 +33,25 @@ namespace VideoGamesManager.DataAccess
             return _mapper.Map<List<Dbo.VideoGame>>(_context.Videogames);
         }
 
+        public List<VideoGame> GetUserVideoGames(int userId)
+        {
+            return _mapper.Map<List<Dbo.VideoGame>>(_context.Videogames.Where(x => x.OwnerId == userId));
+        }
+
         public VideoGame GetVideoGameById(int id)
         {
             var result = _context.Videogames.FirstOrDefault(element => element.Id == id);
             return _mapper.Map<Dbo.VideoGame>(result);
+        }
+
+        public VideoGame GetVideoGameByName(string name)
+        {
+            return _mapper.Map<Dbo.VideoGame>(_context.Videogames.Where(x => x.Name == name).FirstOrDefault());
+        }
+
+        public VideoGame GetVideoGameByNameAndOwner(string name, int ownerId)
+        {
+            return _mapper.Map<Dbo.VideoGame>(_context.Videogames.Where(x => x.Name == name && x.OwnerId == ownerId).FirstOrDefault());
         }
 
         public List<VideoGame> GetVideoGamesByOwnerId(int ownerId)

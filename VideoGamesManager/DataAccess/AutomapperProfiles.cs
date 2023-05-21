@@ -26,6 +26,12 @@ namespace VideoGamesManager.DataAccess
 
             CreateMap<Dbo.Studio, Models.StudioViewModel>();
             CreateMap<Models.StudioViewModel, Dbo.Studio>();
+
+            CreateMap<Dbo.VideoGame, Models.VideoGamesViewModel>();
+            CreateMap<Models.VideoGamesViewModel, Dbo.VideoGame>();
+
+            CreateMap<Dbo.VideoGame, Models.VideoGameViewModel>();
+            CreateMap<Models.VideoGameViewModel, Dbo.VideoGame>();
         }
     }
 }
